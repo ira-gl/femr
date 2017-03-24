@@ -6,14 +6,18 @@
         <link rel="stylesheet" href="@routes.Assets.versioned("css/login.css")">
     }
 @main("Login", styles = styles) {
-
     @helper.form(action = SessionsController.createPost(), 'class -> "form-signin") {
         <div id="login">
             <h1>Please sign in</h1>
-            <input type="text" name="email" placeholder="Email" />
+            @* <input type = "text" name="email" placeholder="Email" value="<c:out value = ${viewModel.getEmail}"/>*@
+            @* @helper.inputText(field = createForm("name"), args = 'size -> 10, 'placeholder -> "Your name")*@
+            <input type="text" name="email" placeholder="Email" autocomplete = "off" />
+            @* @helper.inputText(createForm("email").copy(value = Some("Email")), args = 'id -> "form-signin")*@
+           @* /*@@*helper.inputText(createForm("email"))*/*@
             <input type="password" name="password" placeholder="Password" />
             <input type="submit" value="Log in" />
             <img src="@routes.Assets.versioned("img/logo_color_sm.png")" />
+
         </div>
     }
 }

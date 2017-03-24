@@ -47,13 +47,4 @@ public class AuthenticatedPartialHelper {
         return false;
     }
 
-    public static boolean showManagerMenu(List<IRole> roles) {
-        for (IRole role : roles) {
-            if (role.getId() == Roles.MANAGER) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

@@ -180,7 +180,7 @@ public class PharmaciesController extends Controller {
         PatientEncounterItem patientEncounterItem = patientEncounterItemServiceResponse.getResponseObject();
 
         //get patient
-        ServiceResponse<PatientItem> patientItemServiceResponse = searchService.retrievePatientItemByPatientId(patientEncounterItem.getPatientItem().getId());
+        ServiceResponse<PatientItem> patientItemServiceResponse = searchService.retrievePatientItemByPatientId(patientEncounterItem.getPatientId());
         if (patientItemServiceResponse.hasErrors()) {
             throw new RuntimeException();
         }

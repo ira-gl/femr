@@ -248,24 +248,7 @@ public class ItemModelMapper implements IItemModelMapper {
             patientEncounterItem.addChiefComplaint(cc.getValue());
         }
         patientEncounterItem.setId(patientEncounter.getId());
-
-        //needs special checks for age classification/photo
-        patientEncounterItem.setPatientItem(createPatientItem(patientEncounter.getPatient().getId(),
-                patientEncounter.getPatient().getFirstName(),
-                patientEncounter.getPatient().getLastName(),
-                patientEncounter.getPatient().getPhoneNumber(),
-                patientEncounter.getPatient().getCity(),
-                patientEncounter.getPatient().getAddress(),
-                patientEncounter.getPatient().getUserId(),
-                patientEncounter.getPatient().getAge(),
-                patientEncounter.getPatient().getSex(),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null));
+        patientEncounterItem.setPatientId(patientEncounter.getPatient().getId());
 
         if( patientEncounter.getMissionTrip() != null ) {
             patientEncounterItem.setMissionTripId(patientEncounter.getMissionTrip().getId());
@@ -295,7 +278,6 @@ public class ItemModelMapper implements IItemModelMapper {
         if (patientEncounter.getPharmacist() != null) {
             patientEncounterItem.setPharmacistFullName(patientEncounter.getPharmacist().getFirstName() + " " + patientEncounter.getPharmacist().getLastName()); // Andrew Change
         }
-        patientEncounterItem.setTurnAroundTime(dateUtils.getTurnAroundTime(patientEncounterItem));
         return patientEncounterItem;
 
     }

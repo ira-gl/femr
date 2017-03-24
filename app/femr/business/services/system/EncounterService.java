@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import femr.business.helpers.QueryProvider;
 import femr.business.services.core.IEncounterService;
+import femr.business.services.core.IMissionTripService;
 import femr.common.IItemModelMapper;
 import femr.common.dtos.ServiceResponse;
 import femr.common.models.*;
@@ -40,6 +41,7 @@ import java.util.*;
 
 public class EncounterService implements IEncounterService {
 
+    private IMissionTripService missionTripService;
     private final IRepository<IChiefComplaint> chiefComplaintRepository;
     private final IRepository<IPatientAgeClassification> patientAgeClassificationRepository;
     private final IRepository<IPatientEncounter> patientEncounterRepository;
@@ -50,7 +52,8 @@ public class EncounterService implements IEncounterService {
     private final IItemModelMapper itemModelMapper;
 
     @Inject
-    public EncounterService(IRepository<IChiefComplaint> chiefComplaintRepository,
+    public EncounterService(IMissionTripService missionTripService,
+                            IRepository<IChiefComplaint> chiefComplaintRepository,
                             IRepository<IPatientAgeClassification> patientAgeClassificationRepository,
                             IRepository<IPatientEncounter> patientEncounterRepository,
                             IRepository<IPatientEncounterTabField> patientEncounterTabFieldRepository,
@@ -59,6 +62,7 @@ public class EncounterService implements IEncounterService {
                             IDataModelMapper dataModelMapper,
                             @Named("identified") IItemModelMapper itemModelMapper) {
 
+        this.missionTripService = missionTripService;
         this.chiefComplaintRepository = chiefComplaintRepository;
         this.patientAgeClassificationRepository = patientAgeClassificationRepository;
         this.patientEncounterRepository = patientEncounterRepository;
@@ -473,7 +477,7 @@ public class EncounterService implements IEncounterService {
      * {@inheritDoc}
      */
     @Override
-    public ServiceResponse<List<PatientEncounterItem>> retrieveCurrentDayPatientEncounters(int tripID)
+    public ServiceResponse<List<PatientEncounterItem>> retrieveCurrentDayPatientEncounters()
     {
         ServiceResponse<List<PatientEncounterItem>> response = new ServiceResponse<>();
         List<PatientEncounterItem> patientEncounterItems = new ArrayList<>();
@@ -486,8 +490,7 @@ public class EncounterService implements IEncounterService {
         ExpressionList<PatientEncounter> query = QueryProvider.getPatientEncounterQuery()
                 .where()
                 .ge("date_of_triage_visit", today)
-                .le("date_of_triage_visit", tommorrow)
-                .eq("mission_trip_id",tripID);
+                .le("date_of_triage_visit", tommorrow);
 
         try{
             List<PatientItem> patientItems=null;
